@@ -76,5 +76,5 @@ This software is provided "as is" without any warranties. Use and modify it at y
 
 ## Author ✍️
 
-Developed by [Your Name / Lab / Organization]
+Developed by Rouquet Pierre, IGBMC
 
