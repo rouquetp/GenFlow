@@ -71,7 +71,7 @@ Ex : `path/to/raw/data`.
 
 ⚠️ If your data directory is located inside your working directory (e.g., `NGS_analysis/data`), use `data` as the relative path; otherwise, provide the absolute path.
 
-3. The identifier of your sample (must be unique).
+2. The identifier of your sample (must be unique).
 
 Ex: If your input files are : 'ATH10293.R1.fastq' and 'ATH10293.R2.fastq', then it is recommanded to select `ATH10293`or `10293`.
 
