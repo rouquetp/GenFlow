@@ -35,10 +35,18 @@ module load GenFlow
 GenFlow is executed with the following command structure:
 
 ```bash
-GenFlow [command] [options]
+GenFlow -o path/to/working_directory [options]
 ```
 
-This command initiates the variant calling pipeline, processing raw sequencing data to generate a list of variants with primary annotations.
+This command runs the full pipeline based on the selected options. The available options are:
+
+- `-g` : Runs the pipeline in Whole Genome Sequencing (WGS) mode.
+- `-e` : Runs the pipeline in Whole Exome Sequencing (WES) mode.
+- `-c` : Enables Cohort Mode for analyzing multiple samples together.
+- `-s` : Runs in Single Analysis Mode for individual sample analysis.
+- `-l` : Activates Germline Mode for inherited variant detection.
+- `-o [dir]` : Specifies the working directory (mandatory argument).
+- `-h` : Displays help information about the available options.
 
 ### Important Notes ⚠️📝✅
 
