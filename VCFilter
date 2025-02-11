@@ -1,0 +1,139 @@
+#!/bin/bash
+
+# VCFilter Script
+# Usage:
+#   VCFilter [-o output_directory] [-f number] [-i IMPACT] input.vcf|input.tsv
+#
+# Options:
+#   -o (directory)   : Output directory (if not specified, defaults to input file's directory)
+#   -f (number)      : Filter on gnomAD frequency (e.g., 0.01 for filtering variants with frequency >1%)
+#   -i (IMPACT)      : Filter variants by impact (HIGH, MODERATE, LOW)
+#   -h               : Display this help message
+#
+# Example usage:
+#   VCFilter -o results_folder -f 0.01 -i HIGH sample.vcf
+#   VCFilter -o results_folder -f 0.01 -i HIGH sample.tsv
+
+GenFlow="/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow"
+
+# Function to display help
+usage() {
+  echo "Usage: VCFilter [-o output_directory] [-f number] [-i IMPACT] input.vcf|input.tsv"
+  echo -e "\nOptions:"
+  echo "  -o (directory)   : Output directory (if not specified, defaults to input file's directory)"
+  echo "  -f (number)      : Filter on gnomAD frequency (e.g., 0.01 for filtering variants with frequency >1%)"
+  echo "  -i (IMPACT)      : Filter variants by impact (HIGH, MODERATE, LOW)"
+  echo "  -h               : Display this help message"
+  echo -e "\nExample usage:"
+  echo "  VCFilter -o results_folder -f 0.01 -i HIGH sample.vcf"
+  echo "  VCFilter -o results_folder -f 0.01 -i HIGH sample.tsv"
+  exit 1
+}
+
+# Check if no arguments were provided
+if [[ $# -eq 0 ]]; then
+  usage
+fi
+
+# Variables
+OUTPUT_DIR=""
+FREQ_FILTER=""
+IMPACT=""
+
+# Parse options
+while getopts ":o:f:i:h" opt; do
+  case $opt in
+    o) OUTPUT_DIR="$OPTARG" ;;
+    f) FREQ_FILTER="$OPTARG" ;;
+    i) IMPACT="$OPTARG" ;;
+    h) usage ;; # Display help and exit immediately
+    ?) echo "Invalid option: -$OPTARG" >&2; usage ;;
+  esac
+done
+
+# Shift processed options out
+shift $((OPTIND - 1))
+
+# Ensure an input file is provided
+if [[ -z "$1" ]]; then
+  echo "Error: Input VCF or TSV file is mandatory."
+  usage
+fi
+INPUT_FILE="$1"
+echo "$INPUT_FILE provided"
+
+# Validate input file format
+if [[ "$INPUT_FILE" == *.vcf ]]; then
+  # Set output directory to input file's directory if not specified
+  if [[ -z "$OUTPUT_DIR" ]]; then
+    OUTPUT_DIR="$(dirname "$INPUT_FILE")"
+  fi
+  mkdir -p "$OUTPUT_DIR"
+
+  # Convert VCF to TSV
+  echo "Converting VCF to TSV..."
+  bash $GenFlow/lib/vcfilter/vcf_to_tsv.sh "$INPUT_FILE" "$OUTPUT_DIR/1_filtered.tsv"
+  if [[ $? -ne 0 ]]; then
+    echo "Error: VCF to TSV conversion failed. Exiting."
+    exit 1
+  fi
+  TSV_FILE="$OUTPUT_DIR/1_filtered.tsv"
+
+elif [[ "$INPUT_FILE" == *.tsv ]]; then
+  # If input is already TSV, skip conversion
+  TSV_FILE="$INPUT_FILE"
+  if [[ -z "$OUTPUT_DIR" ]]; then
+    OUTPUT_DIR="$(dirname "$INPUT_FILE")"
+  fi
+  mkdir -p "$OUTPUT_DIR"
+else
+  echo "Error: Input file must be a .vcf or .tsv file."
+  usage
+fi
+
+module load python
+
+# Apply frequency filter if specified
+if [[ ! -z "$FREQ_FILTER" ]]; then
+  echo "Applying frequency filter: $FREQ_FILTER"
+  python3 $GenFlow/lib/vcfilter/filter_frequency.py "$TSV_FILE" "$FREQ_FILTER" "$OUTPUT_DIR/2_filtered_freq.tsv"
+else
+  cp "$TSV_FILE" "$OUTPUT_DIR/2_filtered_freq.tsv"
+fi
+
+# Apply impact filter if specified
+if [[ ! -z "$IMPACT" ]]; then
+  echo "Applying impact filter: $IMPACT"
+  python3 $GenFlow/lib/vcfilter/filter_impact.py "$OUTPUT_DIR/2_filtered_freq.tsv" "$IMPACT" "$OUTPUT_DIR/3_filtered_impact.tsv"
+else
+  cp "$OUTPUT_DIR/2_filtered_freq.tsv" "$OUTPUT_DIR/3_filtered_impact.tsv"
+fi
+
+# Sort columns before converting to CSV
+echo "Sorting columns..."
+python3 $GenFlow/lib/vcfilter/sort_columns.py "$OUTPUT_DIR/3_filtered_impact.tsv" "$OUTPUT_DIR/4_sorted.tsv"
+if [[ $? -ne 0 ]]; then
+  echo "Error: Sorting columns failed. Exiting."
+  exit 1
+fi
+
+# Convert TSV to CSV
+echo "Converting TSV to CSV..."
+python3 $GenFlow/lib/vcfilter/tsv_to_csv.py "$OUTPUT_DIR/4_sorted.tsv" "$OUTPUT_DIR/5_final_result.csv"
+if [[ $? -ne 0 ]]; then
+  echo "Error: TSV to CSV conversion failed. Exiting."
+  exit 1
+fi
+
+# Ask user if they want to convert to Excel
+read -p "Do you want to convert to Excel? This might take some time (y/n): " convert_choice
+if [[ "$convert_choice" == "y" || "$convert_choice" == "Y" ]]; then
+  echo "Converting CSV to Excel..."
+  python3 $GenFlow/lib/vcfilter/csv_to_excel.py "$OUTPUT_DIR/5_final_result.csv" "$OUTPUT_DIR/6_final_result.xlsx"
+  if [[ $? -ne 0 ]]; then
+    echo "Error: CSV to Excel conversion failed. Exiting."
+    exit 1
+  fi
+fi
+
+echo "Filtering completed successfully. Output: $OUTPUT_DIR/5_final_result.csv"

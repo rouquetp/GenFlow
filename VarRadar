@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# VarRadar Script
+# Usage:
+#   VarRadar [-c chromosome] [-p position] input.csv
+#
+# Options:
+#   -c (chromosome) : Chromosome identifier (e.g., chr1)
+#   -p (position)   : Variant position (e.g., 103293)
+#   -h              : Display this help message
+#
+# Example usage:
+#   VarRadar -c 1 -p 103293 input.csv
+
+GenFlow="/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow"
+
+# Function to display help
+usage() {
+  echo "VarRadar will compute quantile-based annotation scores and generate a radar plot."
+  echo "Usage: VarRadar [-c chromosome] [-p position] input.csv"
+  echo -e "\nOptions:"
+  echo "  -c (chromosome) : Chromosome identifier (e.g., chr1)"
+  echo "  -p (position)   : Variant position (e.g., 103293)"
+  echo "  -h              : Display this help message"
+  echo -e "\nExample usage:"
+  echo "  VarRadar -c 1 -p 103293 input.csv"
+  exit 1
+}
+
+# Ensure at least one argument is provided
+if [[ $# -eq 0 ]]; then
+  usage
+fi
+
+# Variables
+CHROM=""
+POS=""
+
+# Parse options
+while getopts ":c:p:h" opt; do
+  case $opt in
+    c) CHROM="chr""$OPTARG" ;;
+    p) POS="$OPTARG" ;;
+    h) usage ;; # Display help and exit
+    ?) echo "Invalid option: -$OPTARG" >&2; usage ;;
+  esac
+done
+
+# Remove processed options
+shift $((OPTIND - 1))
+
+# Ensure an input CSV file is provided
+if [[ -z "$1" ]]; then
+  echo "Error: An input CSV file is required."
+  usage
+fi
+INPUT_CSV="$1"
+echo "Input file: $INPUT_CSV"
+
+# Verify input file format
+if [[ "$INPUT_CSV" != *.csv ]]; then
+  echo "Error: The input file must be a .csv file."
+  usage
+fi
+
+# Ensure chromosome and position are provided
+if [[ -z "$CHROM" || -z "$POS" ]]; then
+  echo "Error: Both chromosome (-c) and position (-p) must be specified."
+  usage
+fi
+
+# Load the required Python module
+module load python
+
+# Execute the Python script
+python "$GenFlow/lib/radarplot/radarplot.py" "$INPUT_CSV" "$CHROM" "$POS"
+
+if [[ $? -ne 0 ]]; then
+  echo "Error: Radar plot generation failed."
+  exit 1
+fi
+
+echo "Radar plot successfully generated."

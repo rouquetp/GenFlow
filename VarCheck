@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# VarCheck Script
+# Usage:
+#   VarCheck [-o output_directory] input.vcf
+#
+# Options:
+#   -o (directory)   : Répertoire de sortie (par défaut, le répertoire du fichier d'entrée)
+#   -h               : Affiche ce message d'aide
+#
+# Exemple d'utilisation:
+#   VarCheck -o results_folder sample.vcf
+
+GenFlow="/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow"
+
+# Fonction d'affichage de l'aide
+usage() {
+  echo "VarCheck will add annotation scores on deleteriousness of variations"
+  echo "Usage: VarCheck [-o output_directory] input.vcf"
+  echo -e "\nOptions:"
+  echo "  -o (directory)   : Répertoire de sortie (par défaut, le répertoire du fichier d'entrée)"
+  echo "  -h               : Affiche ce message d'aide"
+  echo -e "\nExemple d'utilisation:"
+  echo "  VarCheck -o results_folder sample.vcf"
+  exit 1
+}
+
+# Vérifier si aucun argument n'est fourni
+if [[ $# -eq 0 ]]; then
+  usage
+fi
+
+# Variables
+OUTPUT_DIR=""
+
+# Analyse des options
+while getopts ":o:h" opt; do
+  case $opt in
+    o) OUTPUT_DIR="$OPTARG" ;;
+    h) usage ;; # Afficher l'aide et quitter
+    ?) echo "Option invalide: -$OPTARG" >&2; usage ;;
+  esac
+done
+
+# Supprimer les options traitées
+shift $((OPTIND - 1))
+
+# Vérifier qu'un fichier VCF d'entrée est fourni
+if [[ -z "$1" ]]; then
+  echo "Erreur: Un fichier VCF en entrée est requis."
+  usage
+fi
+INPUT_VCF="$1"
+echo "$INPUT_VCF fourni"
+
+# Vérifier le format du fichier d'entrée
+if [[ "$INPUT_VCF" != *.vcf ]]; then
+  echo "Erreur: Le fichier d'entrée doit être un fichier .vcf."
+  usage
+fi
+
+# Définir le répertoire de sortie par défaut si non spécifié
+if [[ -z "$OUTPUT_DIR" ]]; then
+  OUTPUT_DIR="$(dirname "$INPUT_VCF")"
+fi
+
+# Créer le répertoire de sortie s'il n'existe pas
+mkdir -p "$OUTPUT_DIR"
+
+# Lancer l'annotation avec sbatch
+echo "Lancement de l'annotation via sbatch..."
+sbatch "$GenFlow/lib/varcheck/annotations.sh" "$INPUT_VCF" "$OUTPUT_DIR"
+if [[ $? -ne 0 ]]; then
+  echo "Erreur: Lancement de l'annotation échoué."
+  exit 1
+fi
+
+echo "Annotation lancée avec succès."

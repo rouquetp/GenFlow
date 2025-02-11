@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# Main GenFlow script
+# Usage:
+#   GenFlow -o path/to/working_directory (Runs the full pipeline based on options)
+
+GenFlow="/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow"
+
+# Function to display help
+usage() {
+  echo "Usage: GenFlow [options]"
+  echo "Options:"
+  echo "  -g            WGS Mode"
+  echo "  -e            WES Mode"
+  echo "  -c            Cohort Mode"
+  echo "  -s            Single Analysis Mode"
+  echo "  -l            Germline Mode"
+  echo "  -o [dir]      Working directory (mandatory)"
+  echo "  -h            Display this help"
+  exit 1
+}
+
+# COLORS
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+RESET='\033[0m'
+
+# Variables
+WGS=false
+WES=false
+COHORT=false
+SINGLE=false
+GERMLINE=false
+WORK_DIR=""
+
+# Option management
+while getopts ":gecslo:h" opt; do
+  case $opt in
+    g) WGS=true ;;
+    e) WES=true ;;
+    c) COHORT=true ;;
+    s) SINGLE=true ;;
+    l) GERMLINE=true ;;
+    o) WORK_DIR="$OPTARG" ;;
+    h) usage ;;
+    ?) echo "Invalid option: -$OPTARG" >&2; usage ;;
+  esac
+done
+
+# Check for the mandatory -o option
+if [ -z "$WORK_DIR" ]; then
+  echo -e "${RED}Error: The -o (working directory) option is mandatory.${RESET}"
+  usage
+fi
+
+# Create the working directory if it doesn't exist
+if [[ ! -d "$WORK_DIR" ]]; then
+    echo -e "${CYAN}Creating the working directory${RESET}: $WORK_DIR"
+    mkdir -p "$WORK_DIR"
+fi
+sleep 1
+
+# Ensure SampleSheet.txt exists
+if [[ ! -f "$WORK_DIR/SampleSheet.txt" ]]; then
+    echo -e "${YELLOW}'SampleSheet.txt' not found.${RESET} Initiating creation process..."
+    bash $GenFlow/lib/create_sample_sheet2.sh "$WORK_DIR"
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}Error: Failed to create 'SampleSheet.txt'. Exiting.${RESET}"
+        exit 1
+    fi
+fi
+sleep 1
+
+# Run the full pipeline based on selected options
+echo -e "Running full pipeline..."
+if $WGS && $COHORT; then
+  bash "$GenFlow/lib/WGS_cohort/run_WGS_cohort.sh" "$WORK_DIR"
+elif $WGS && $GERMLINE; then
+  bash "$GenFlow/lib/WGS_germline/run_WGS_germline.sh" "$WORK_DIR"
+elif $WGS && $SINGLE; then
+  bash "$GenFlow/lib/WGS_single/run_WGS_single.sh" "$WORK_DIR"
+elif $WES && $COHORT; then
+  bash "$GenFlow/lib/WES_cohort/run_WES_cohort.sh" "$WORK_DIR"
+elif $WES && $GERMLINE; then
+  bash "$GenFlow/lib/WES_germline/run_WES_germline.sh" "$WORK_DIR"
+elif $WES && $SINGLE; then
+  bash "$GenFlow/lib/WES_single/run_WES_single.sh" "$WORK_DIR"
+else
+  echo -e "${RED}Invalid combination of options for full pipeline.${RESET}"
+  usage
+fi
+
+exit 0
