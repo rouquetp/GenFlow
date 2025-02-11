@@ -62,17 +62,23 @@ This command runs the full pipeline based on the selected options. The available
 - `-o [dir]` : Specifies the working directory (mandatory argument).
 - `-h` : Displays help information about the available options.
 
-### Important Notes ⚠️📝✅
+### Sample Sheet Creation ✍️📝
 
-1. Ensure that the sample name does not appear multiple times within the data directory.
-2. If your data directory is located inside your working directory (e.g., `NGS_analysis/data`), use `data` as the relative path; otherwise, provide the absolute path.
-3. **Avoid overwriting inputs**: If an incorrect path or name is entered, use `Ctrl + C` to exit and restart the command rather than editing directly.
+The pipeline include a SampleSheet creation tool to prepare your analysis. There are few informations you need to know before this step : 
+1. The location of your raw data (input)
+Ex : `path/to/raw/data`
+⚠️ If your data directory is located inside your working directory (e.g., `NGS_analysis/data`), use `data` as the relative path; otherwise, provide the absolute path.
+2. The identifier of your sample (must be unique)
+Ex: If your input files are : 'ATH10293.R1.fastq' and 'ATH10293.R2.fastq', then it is recommanded to select `ATH10293`or `10293`.
+
+### Important Notes ⚠️📝✅
+**Avoid overwriting inputs**: If an incorrect path or name is entered, use `Ctrl + C` to exit and restart the command rather than editing directly.
 
 ### Troubleshooting 🛑🔍
 
 - **Invalid option error**: Double-check the command syntax.
 - **Missing `SampleSheet.txt`**: The script generates it automatically, but ensure permissions are correct.
-- **Pipeline execution failure**: Verify dependencies and correct path settings.
+- **Pipeline execution failure**: Check that input paths are correct
 
 ## 3. VarCheck: Prediction Tools' Annotation 🧬🔍
 
