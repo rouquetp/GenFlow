@@ -6,9 +6,23 @@ GenFlow is a comprehensive tool designed for Next-Generation Sequencing (NGS) an
 
 ## 1. Setup & Installation ⚙️🛠️
 
-Before using GenFlow, the module must be set up correctly. This step is required only once.
+### For IGBMC user 📑
+Certain prerequisites are necessary if you have never performed scientific calculations on IGBMC platforms.
+Here are some interesting notices developed by the IT department to help you understand how it works: 
+1. Scientific computing
+https://it.igbmc.fr/hpc
+2. Quick Start Guide
+https://it.igbmc.fr/hpc/quick-start-guide
+3. Logging in 
+https://it.igbmc.fr/hpc/logging-in
+4. SLURM user guide
+https://it.igbmc.fr/hpc/slurm-user-guide
+
+
 
 ### Initial Configuration 📑💻
+
+Before using GenFlow, the module must be set up correctly. This step is required only once.
 
 To make GenFlow available as a module (similar to `bcftools` or `gatk`), add the module path to your environment by running:
 
