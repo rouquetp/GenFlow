@@ -162,6 +162,48 @@ To convert the final CSV file to Excel, you will be prompted to confirm:
 Do you want to convert to Excel? This might take some time (y/n):
 ```
 
+## 5. VarRadar: Quantile-Based Annotation and Radar Plot Generation 📊📡
+
+VarRadar is a visualization tool designed to analyze annotation scores based on quantiles and generate a radar plot for a given variant. This allows for an intuitive comparison of a variant’s impact across different annotation metrics.
+
+### Purpose 🎯
+VarRadar provides a graphical representation of annotation scores, helping to compare the relative significance of variants based on their functional impact.
+
+### Running VarRadar ▶️
+To run VarRadar, use the following command structure:
+
+```bash
+
+VarRadar [-c chromosome] [-p position] input.csv
+````
+
+Available options:
+
+`-c (chromosome)`: Chromosome identifier (e.g., chr1).
+`-p (position)` : Variant position (e.g., 103293).
+`-h ` : Displays help information.
+
+Example Usage:
+```bash
+
+VarRadar -c 1 -p 103293 sample.csv
+
+```
+
+## Input Requirements 📝
+
+The input file must be in CSV format (`.csv`).
+The chromosome and position of the variant must be specified.
+
+## Output 📈
+
+A radar plot visualizing the annotation scores.
+A log message confirming successful execution or detailing errors.
+Troubleshooting 🛑🔍
+`Missing input file`: Ensure a valid CSV file is provided.
+`Incorrect format`: The tool only accepts .csv files.
+`Execution failure`: Check that chromosome and position arguments are correctly formatted.
+
 
 ## License 📜
 
