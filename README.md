@@ -99,7 +99,7 @@ Ex: If your input files are : 'ATH10293.R1.fastq' and 'ATH10293.R2.fastq', then 
 ## 3. VarCheck: Prediction Tools' Annotation 🧬🔍
 
 VarCheck is a complementary tool to GenFlow, designed for assessing the functional impact of detected variants by integrating additional annotation scores.
-This is a highly recommanded step, but not mandatory. This process will take 1h per If you don't need it, go directly to step 4.
+This is a highly recommanded step, but not mandatory. This process will last approximately 1h per 5 000 000 variants. If you don't need it, go directly to step 4.
 
 ### Purpose 🎯
 
@@ -115,6 +115,44 @@ VarCheck [-o output_directory] input.vcf
 
 This command outputs an annotated VCF file with additional prediction scores.
 
+## 4. VCFilter: Filtering and Transformation of VCF Files 🛠️📈
+
+VCFilter is a tool to filter, transform, and convert VCF files into TSV and Excel formats for easier downstream analysis.
+
+### Running VCFilter ▶️
+
+VCFilter can be executed using the following command structure:
+
+```bash
+VCFilter [-o output_directory] [-f number] [-i IMPACT] input.vcf|input.tsv
+```
+
+Available options:
+
+- `-o (directory)`: Output directory (defaults to input file's directory if not specified).
+- `-f (number)`: Filters variants by gnomAD frequency (e.g., 0.01 to exclude variants with frequency >1%).
+- `-i (IMPACT)`: Filters variants by impact (HIGH, MODERATE, LOW).
+- `-h`: Displays help information.
+
+### Example Usage:
+
+```bash
+VCFilter -o results_folder -f 0.01 -i HIGH sample.vcf
+```
+
+### Output:
+
+- A filtered `.tsv` file containing selected variants.
+- A sorted `.csv` file ready for further analysis.
+- (Optional) An Excel `.xlsx` file for easier visualization.
+
+To convert the final CSV file to Excel, you will be prompted to confirm:
+
+```bash
+Do you want to convert to Excel? This might take some time (y/n):
+```
+
+
 ## License 📜
 
 This software is provided "as is" without any warranties. Use and modify it at your own risk.
@@ -122,4 +160,3 @@ This software is provided "as is" without any warranties. Use and modify it at y
 ## Author ✍️
 
 Developed by Rouquet Pierre, IGBMC
-
