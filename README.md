@@ -121,8 +121,12 @@ VCFilter is a tool to filter, transform, and convert VCF files into TSV and Exce
 Now that you have done your analysis with GenFlow (and eventually VarCheck), you can proceed to the extraction of the variants in order to get an Excel file.
 If your .vcf file is huge (more than 100 000 Kb), it is recommanded to filter your results. 
 Your can wether filter on the impact of the variant or the frequency on gnomAD (healthy population).
-![image](https://github.com/user-attachments/assets/caae0310-6654-45e7-921e-4d3e3911ed31)
+
+Here you have the list of different consequences and the corresponding IMPACT 
+
+
 ![image](https://github.com/user-attachments/assets/999597e9-0e5c-4e2f-ae76-78aa331dd025)
+![image](https://github.com/user-attachments/assets/caae0310-6654-45e7-921e-4d3e3911ed31)
 
 ### Running VCFilter ▶️
 
