@@ -164,7 +164,10 @@ Do you want to convert to Excel? This might take some time (y/n):
 
 ## 5. VarRadar: Quantile-Based Annotation and Radar Plot Generation 📊📡
 
-VarRadar is a visualization tool designed to analyze annotation scores based on quantiles and generate a radar plot for a given variant. This allows for an intuitive comparison of a variant’s impact across different annotation metrics.
+Finally that you have your Excel, you may find interesting missense variants. VarRadar is a visualization tool designed to analyze annotation scores based on quantiles and generate a radar plot for a given variant. This allows for an intuitive comparison of a variant’s impact across different annotation metrics.
+
+![image](https://github.com/user-attachments/assets/d40e042f-a0cb-4bc8-9971-123637a0db13)
+
 
 ### Purpose 🎯
 VarRadar provides a graphical representation of annotation scores, helping to compare the relative significance of variants based on their functional impact.
