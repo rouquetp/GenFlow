@@ -91,9 +91,15 @@ Ex: If your input files are : 'ATH10293.R1.fastq' and 'ATH10293.R2.fastq', then 
 - **Missing `SampleSheet.txt`**: The script generates it automatically, but ensure permissions are correct.
 - **Pipeline execution failure**: Check that input paths are correct
 
+### Results and SLURM issues/output 📝✅
+
+- **Results** : Your analysis process will go through 7 steps from raw data to annotation : the resulting .vcf file is in the `/07-annotation` folder. Do not hesitate to check the stat file in the same folder, you will get information about the total number of variant, the number of variants per categories ...
+- **Errors** : Errors may happen, you can find additional information about them in the `/slurm_output`folder.
+
 ## 3. VarCheck: Prediction Tools' Annotation 🧬🔍
 
 VarCheck is a complementary tool to GenFlow, designed for assessing the functional impact of detected variants by integrating additional annotation scores.
+This is a highly recommanded step, but not mandatory. This process will take 1h per If you don't need it, go directly to step 4.
 
 ### Purpose 🎯
 
