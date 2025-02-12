@@ -44,12 +44,19 @@ To use GenFlow, first load the module:
 module load GenFlow
 ```
 
+### Go in your analysis directory ​🏃‍♂️‍➡️​​📁​
+
+In your personnal folder (in space2 or mendel), it is recommanded to have a main directory where you perform all the analysis of your project.
+First get in this directory with `cd path/to/all/analysis`.
+Then you are ready to run GenFlow's pipeline.
+
+
 ### Running GenFlow ▶️
 
 GenFlow is executed with the following command structure:
 
 ```bash
-GenFlow -o path/to/working_directory [options]
+GenFlow [options] -o outputdir
 ```
 
 This command runs the full pipeline based on the selected options. The available options are:
