@@ -118,14 +118,20 @@ This command outputs an annotated VCF file with additional prediction scores.
 ## 4. VCFilter: Filtering and Transformation of VCF Files 🛠️📈
 
 VCFilter is a tool to filter, transform, and convert VCF files into TSV and Excel formats for easier downstream analysis.
+Now that you have done your analysis with GenFlow (and eventually VarCheck), you can proceed to the extraction of the variants in order to get an Excel file.
+If your .vcf file is huge (more than 100 000 Kb), it is recommanded to filter your results. 
+Your can wether filter on the impact of the variant or the frequency on gnomAD (healthy population).
+![image](https://github.com/user-attachments/assets/caae0310-6654-45e7-921e-4d3e3911ed31)
+![image](https://github.com/user-attachments/assets/999597e9-0e5c-4e2f-ae76-78aa331dd025)
 
 ### Running VCFilter ▶️
 
 VCFilter can be executed using the following command structure:
 
 ```bash
-VCFilter [-o output_directory] [-f number] [-i IMPACT] input.vcf|input.tsv
+VCFilter [-o output_directory] [-f gnomADfrequency] [-i IMPACT] input.vcf|input.tsv
 ```
+
 
 Available options:
 
