@@ -193,12 +193,12 @@ VarRadar -c 1 -p 103293 sample.csv
 
 ```
 
-## Input Requirements 📝
+### Input Requirements 📝
 
 The input file must be in CSV format (`.csv`).
 The chromosome and position of the variant must be specified.
 
-## Output 📈
+### Output 📈
 
 A radar plot visualizing the annotation scores.
 A log message confirming successful execution or detailing errors.
