@@ -27,7 +27,7 @@ Before using GenFlow, the module must be set up correctly. This step is required
 To make GenFlow available as a module (similar to `bcftools` or `gatk`), add the module path to your environment by running:
 
 ```bash
-echo 'export MODULEPATH=/shared/mendel/projects/T01_NGS/Pipeline/GenFlow:$MODULEPATH' >> ~/.bashrc
+echo 'export MODULEPATH=/shared/mendel/projects/T01_NGS/Pipeline/GenFlow/modulefiles:$MODULEPATH' >> ~/.bashrc
 ```
 
 After adding this line, reload your session by disconnecting (`exit`) and reconnecting to ensure the path is recognized.
