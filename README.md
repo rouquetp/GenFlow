@@ -18,7 +18,26 @@ https://it.igbmc.fr/hpc/logging-in
 4. SLURM user guide
 https://it.igbmc.fr/hpc/slurm-user-guide
 
+### SLURM task management 
 
+Here are a few commands you need to be able to use : 
+`sbatch` (run a bash script on the cluster, not usefull if you have GenFlow)
+`squeue` (see all SLURM jobs that are on going)
+
+Type : `squeue -u {yourusername}` to check the advencement of your own jobs : (PD for pending R for Running)
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3406299     igbmc    annot rouquetp PD       0:00      1 (Dependency)
+           3406298     igbmc  varcall rouquetp PD       0:00      1 (Dependency)
+           3406297     igbmc preproce rouquetp  R       0:05      1 phantom-node29
+           3406296     igbmc    annot rouquetp  R       8:11      1 phantom-node29
+
+`scancel -u {yourusername}` (cancel all of your jobs)
+`scancel {jobID}` (cancel a specific job with the ID of the task)
+
+⚠️ Do not type `scancel` without option, it may cancel other user's tasks
+
+Here are some usual things you can do with the SLURM cluster : 
+https://slurm.schedmd.com/documentation.html
 
 ### Initial Configuration 📑💻
 
