@@ -24,7 +24,7 @@ Here are a few commands you need to be able to use :
 `sbatch` (run a bash script on the cluster, not usefull if you have GenFlow)
 `squeue` (see all SLURM jobs that are on going)
 
-<img width="300" alt="image" src="https://github.com/user-attachments/assets/311085ab-d571-4cae-aad5-1dd5daa26358" />
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/311085ab-d571-4cae-aad5-1dd5daa26358" />
 
 `scancel -u {yourusername}` (cancel all of your jobs)
 `scancel {jobID}` (cancel a specific job with the ID of the task)
