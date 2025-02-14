@@ -1,7 +1,9 @@
 # GenFlow - NGS Analysis Pipeline
 
 ALL of the GenFlow code is stored at : 
-`/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow` or `/shared/mendel/projects/T01_NGS/Pipeline/GenFlow`
+
+`/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow` 
+or `/shared/mendel/projects/T01_NGS/Pipeline/GenFlow`
 
 ## Summary 🚀📊
 
