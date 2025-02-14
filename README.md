@@ -24,12 +24,7 @@ Here are a few commands you need to be able to use :
 `sbatch` (run a bash script on the cluster, not usefull if you have GenFlow)
 `squeue` (see all SLURM jobs that are on going)
 
-Type : `squeue -u {yourusername}` to check the advencement of your own jobs : (PD for pending R for Running)
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-           3406299     igbmc    annot rouquetp PD       0:00      1 (Dependency)
-           3406298     igbmc  varcall rouquetp PD       0:00      1 (Dependency)
-           3406297     igbmc preproce rouquetp  R       0:05      1 phantom-node29
-           3406296     igbmc    annot rouquetp  R       8:11      1 phantom-node29
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/311085ab-d571-4cae-aad5-1dd5daa26358" />
 
 `scancel -u {yourusername}` (cancel all of your jobs)
 `scancel {jobID}` (cancel a specific job with the ID of the task)
