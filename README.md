@@ -1,5 +1,8 @@
 # GenFlow - NGS Analysis Pipeline
 
+ALL of the GenFlow code is stored at : 
+`/shared/space2/laporte/labo6_laporte1/_NGS/GenFlow` or `/shared/mendel/projects/T01_NGS/Pipeline/GenFlow`
+
 ## Summary 🚀📊
 
 GenFlow is a comprehensive tool designed for Next-Generation Sequencing (NGS) analysis, specifically handling Whole Exome Sequencing (WES) and Whole Genome Sequencing (WGS) data. The pipeline automates variant calling and primary annotations. Additionally, it integrates secondary tools for further annotation and impact assessment of variants.
